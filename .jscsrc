@@ -1,0 +1,8 @@
+{
+  "preset": "google",
+  "disallowMultipleVarDecl": false,
+  "disallowMixedSpacesAndTabs": true,
+  "maximumLineLength": 140,
+  "validateIndentation": 4,
+  "maxErrors": 100
+}

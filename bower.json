@@ -1,0 +1,26 @@
+{
+  "name": "d3-charts",
+  "description": "Demo to draw charts using d3",
+  "main": "index.js",
+  "authors": [
+    "Steve Bidenko"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "jquery",
+    "d3.js",
+    "charts"
+  ],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.0.0"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "d3-charts",
+  "version": "1.0.0",
+  "description": "Demo to draw charts using d3",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "jquery",
+    "d3.js",
+    "charts"
+  ],
+  "author": "Steve Bidenko",
+  "license": "MIT",
+  "dependencies": {
+    "bower": "^1.7.9",
+    "colors": "^1.1.2",
+    "console-stamp": "^0.2.2",
+    "express": "^4.14.0",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-sass": "^2.3.2",
+    "gulp-watch": "^4.3.8",
+    "main-bower-files": "^2.13.1"
+  }
+}
