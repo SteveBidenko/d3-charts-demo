@@ -1,20 +1,29 @@
-// Made by Steve at 28-June-2016
-my pageTitile = 'D3
+- // Made by Steve at 28-June-2016
+- var pageTitle = "D3 demo chart"
 doctype html
 html(lang="en")
     head
-        meta(charset='UTF-8').
+        meta(charset="UTF-8").
         title= pageTitle
-        script(type='text/javascript', ).
+        link(rel="stylesheet", href="http://fonts.googleapis.com/css?family=Istok+Web", type="text/css")
+        //- link(rel="stylesheet", href="/css/jquery.tipsy.css")
+        link(rel="stylesheet", href="/css/app.css")
     body
-        #entity-chart
-            .form-container
-                form#benchmarks
-                    fieldset(name="benchmarks", class="benchmarks")
-                        .checkbox-wrap
-                            label(href="#", for="league-average", class="benchmarks-label") Second Benchmark
-                                input(type="checkbox", name="benchmarks", id="league-average", class="benchmarks-checkbox")
-                                span
-                                span
-
-                    button(type="submit", value="random") Random
+        main(role="main")
+            #entity-chart
+                .form-container
+                    form#benchmarks
+                        fieldset(name="benchmarks", class="benchmarks")
+                            .checkbox-wrap
+                                label(href="#", for="league-average", class="benchmarks-label") Second chart
+                                    input(type="checkbox", name="benchmarks", id="league-average", class="benchmarks-checkbox")
+                                    span
+                                    span
+                        button(type="submit", value="random") Random
+        //- script(type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js").
+        script(type="text/javascript", src="lib/jquery.min.js").
+        //- script(type="text/javascript", src="http://d3js.org/d3.v3.min.js").
+        script(type="text/javascript", src="lib/d3.min.js").
+        script(type="text/javascript", src="//cdn.jsdelivr.net/tipsy/1.0/javascripts/jquery.tipsy.js").
+        //- script(type="text/javascript", src="lib/jquery.tipsy.js").
+        script(type="text/javascript", src="js/app.js").

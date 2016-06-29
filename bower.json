@@ -21,6 +21,7 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "^3.0.0"
+    "d3": "^3.5.17",
+    "jquery.tipsy": "*"
   }
 }

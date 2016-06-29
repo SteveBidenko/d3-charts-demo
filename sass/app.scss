@@ -7,3 +7,322 @@
   width: 100%;
   text-align: center;
 }
+
+// --- Variables
+// ---------------------------------------------------
+
+// color
+$color-1: #e2e3e3; // light silver
+$color-2: #969ca9; // slate
+$color-3: #7aaec5; // accent blue light
+$color-4: #5f96bb; // accent blue dark
+$color-5: #efefef; // light white
+$color-6: #e7e9ec; // darker white
+$color-7: #d0d1d1; // grey
+$color-8: #92b6c7; // lighter blue
+$color-9: #9ea0a6; // grey text
+$color-10: #699dc6; // button blue
+$color-11: #e0e1e3; // shade grey
+
+// fonts
+$font-istok: 'Istok Web', sans-serif;
+
+// --- end variables ---------------------------------
+
+// --- Mixins
+// ---------------------------------------------------
+
+// transitions
+@mixin transition($property, $duration) {
+  -webkit-transition: $property $duration ease-in-out;
+  -moz-transition: $property $duration ease-in-out;
+  -o-transition: $property $duration ease-in-out;
+  -ms-transition: $property $duration ease-in-out;
+  transition: $property $duration ease-in-out;
+}
+
+@mixin gradient($from, $to) {
+  background-color: $to;
+  background-image: -moz-linear-gradient($from, $to);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from($from), to($to));
+  background-image: -webkit-linear-gradient($from, $to);
+  background-image: -o-linear-gradient($from, $to);
+}
+@mixin gradient-horizontal-three-colors($start-color: $color-6, $mid-color: $color-5, $color-stop: 50%, $end-color: $color-6) {
+  background-image: -webkit-gradient(left, linear, 0 0, 0 100%, from($start-color), color-stop($color-stop, $mid-color), to($end-color));
+  background-image: -webkit-linear-gradient(left, $start-color, $mid-color $color-stop, $end-color);
+  background-image: -moz-linear-gradient(left, $start-color, $mid-color $color-stop, $end-color);
+  background-image: linear-gradient(to right, $start-color, $mid-color $color-stop, $end-color);
+  background-repeat: no-repeat;
+}
+
+// clearfix
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both; }
+  *zoom: 1;
+}
+
+// --- end mixins ------------------------------------
+
+// --- Base styles
+// ---------------------------------------------------
+
+// allow padding and border to be calc with width
+// and reset margin/padding
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  @include gradient($color-1, $color-2);
+  background-repeat: no-repeat;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  font-family: $font-istok;
+  font-weight: 300;
+  color: $color-9;
+}
+
+[role="main"] {
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  justify-content: center;
+}
+
+// --- end base styles -------------------------------
+
+// -// --- Ishtar styles
+// ---------------------------------------------------
+#entity-chart {
+  position: relative;
+  margin: 10% 0;
+  padding: 0 50px 30px 30px;
+  border-radius: 4px;
+  box-shadow: 0 40px 50px rgba(0,0,0,.3), inset 0 -5px 5px rgba(0,0,0,.3);
+  border-top: 2px solid white;
+  width: 850px;
+  height: 500px;
+  @include clearfix;
+  @include gradient-horizontal-three-colors();
+
+  &:before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    display: block;
+    left: 0px;
+    top: 10px;
+    margin: 30px;
+    height: 280px;
+    width: 790px;
+    @include gradient-horizontal-three-colors($start-color: $color-6, $mid-color: $color-11, $color-stop: 50%, $end-color: $color-6);
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    display: block;
+    left: 20px;
+    top: 10px;
+    margin: 30px;
+    height: 1px;
+    width: 750px;
+    background: $color-7;
+  }
+}
+svg {
+  position: relative;
+  z-index: 2;
+}
+
+#entity-chart line {
+  stroke: $color-7;
+}
+
+#entity-chart text {
+  fill: $color-8;
+}
+
+#entity-chart path {
+  stroke: $color-8;
+  stroke-width: 3px;
+  fill: none;
+}
+
+#entity-chart circle {
+  stroke: $color-4;
+  fill: #fff;
+  stroke-width: 3px;
+}
+
+#entity-chart circle:hover,
+#entity-chart circle.active {
+  stroke-width: 6px;
+  cursor: pointer;
+}
+
+#entity-chart path[class*="average"],
+#entity-chart path[class*="top"],
+#entity-chart path[class*="bottom"] {
+  stroke: $color-7;
+}
+
+#entity-chart circle[class*="average"],
+#entity-chart circle[class*="top"],
+#entity-chart circle[class*="bottom"] {
+  fill: white;
+  stroke: $color-7;
+}
+
+#entity-chart circle:hover {
+  cursor: pointer;
+  stroke: $color-4;
+}
+
+.tipsy {
+  font-size: 14px;
+  position: absolute;
+  padding: 5px;
+  margin-top: -8px;
+  margin-left: 6.5px;
+  z-index: 100000;
+  text-shadow: 0 1px 1px rgba(0,0,0,.3);
+}
+
+.tipsy-inner {
+  @include gradient($color-3, $color-4);
+  color: #fff;
+  max-width: 200px;
+  padding: 5px 8px 4px 8px;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0,0,0,.3);
+  border-radius: 3px;
+}
+
+.tipsy-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  line-height: 0;
+  border: 5px dashed $color-4;
+}
+
+.tipsy-arrow-s {
+  border-top-color: $color-4;
+}
+
+.tipsy-s .tipsy-arrow {
+  bottom: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-top-style: solid;
+  border-bottom: none;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+.form-container {
+  text-rendering: geometricPrecision;
+  position: absolute;
+  bottom: 9px;
+  left: 60px;
+  height: 80px;
+  width: 750px;
+  text-shadow: 0 1px 1px rgba(255,255,255,.5);
+
+  fieldset {
+    border: none;
+    @include clearfix;
+  }
+  .checkbox-wrap {
+    float: left;
+    font-size: 23px;
+    padding-right: 18px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  input[type="checkbox"] {
+    visibility: hidden;
+  }
+  label {
+    padding-left: 51px;
+    position: relative;
+
+    span {
+      @include transition(all, .2s);
+      width: 43px;
+      height: 23px;
+      border-radius: 20px;
+      display: inline-block;
+      position: absolute;
+      left: 0;
+      top: 3px;
+
+      &:first-of-type {
+        background: $color-9;
+        box-shadow: inset 0 0 2px rgba(0,0,0,.3);
+      }
+      &:last-of-type {
+        position: absolute;
+        width: 19px;
+        height: 19px;
+        border-radius: 19px;
+        background: white;
+        left: 2px;
+        top: 5px;
+      }
+    }
+    &.active {
+      span {
+        &:first-of-type {
+          background: $color-4;
+        }
+        &:last-of-type {
+          left: 22px;
+        }
+      }
+    }
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  button {
+    @include transition(background, .2s);
+    background: $color-10;
+    border-radius: 3px;
+    border: 2px solid $color-10;
+    padding: 10px 20px;
+    position: relative;
+    top: -42px;
+    float: right;
+    color: white;
+    font-size: 22px;
+    outline: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+      cursor: pointer;
+      background: darken($color-10, 5%);
+    }
+    &:active {
+      @include transition(background, 0s);
+      margin-top: 2px;
+      margin-right: 2px;
+      border-size: 1px;
+      background: darken($color-10, 10%);
+      font-size: 21px;
+    }
+  }
+}
