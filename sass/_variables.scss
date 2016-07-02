@@ -1,0 +1,58 @@
+// --- Variables
+// ---------------------------------------------------
+
+// color
+$color-1: #e2e3e3; // light silver
+$color-2: #969ca9; // slate
+$color-3: #7aaec5; // accent blue light
+$color-4: #5f96bb; // accent blue dark
+$color-5: #efefef; // light white
+$color-6: #e7e9ec; // darker white
+$color-7: #d0d1d1; // grey
+$color-8: #92b6c7; // lighter blue
+$color-9: #9ea0a6; // grey text
+$color-10: #699dc6; // button blue
+$color-11: #e0e1e3; // shade grey
+
+// fonts
+$font-istok: 'Istok Web', sans-serif;
+
+// --- end variables ---------------------------------
+
+// --- Mixins
+// ---------------------------------------------------
+
+// transitions
+@mixin transition($property, $duration) {
+  -webkit-transition: $property $duration ease-in-out;
+  -moz-transition: $property $duration ease-in-out;
+  -o-transition: $property $duration ease-in-out;
+  -ms-transition: $property $duration ease-in-out;
+  transition: $property $duration ease-in-out;
+}
+
+@mixin gradient($from, $to) {
+  background-color: $to;
+  background-image: -moz-linear-gradient($from, $to);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from($from), to($to));
+  background-image: -webkit-linear-gradient($from, $to);
+  background-image: -o-linear-gradient($from, $to);
+}
+@mixin gradient-horizontal-three-colors($start-color: $color-6, $mid-color: $color-5, $color-stop: 50%, $end-color: $color-6) {
+  background-image: -webkit-gradient(left, linear, 0 0, 0 100%, from($start-color), color-stop($color-stop, $mid-color), to($end-color));
+  background-image: -webkit-linear-gradient(left, $start-color, $mid-color $color-stop, $end-color);
+  background-image: -moz-linear-gradient(left, $start-color, $mid-color $color-stop, $end-color);
+  background-image: linear-gradient(to right, $start-color, $mid-color $color-stop, $end-color);
+  background-repeat: no-repeat;
+}
+
+// clearfix
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both; }
+  *zoom: 1;
+}
+
+// --- end mixins ------------------------------------

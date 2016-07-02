@@ -5,7 +5,7 @@
 // Load required modules
 const
     http = require('http'),
-    port = 8080,
+    port = 8081,
     express = require('express'),           // web framework external module
     httpApp = express(),
     colors = require('colors');

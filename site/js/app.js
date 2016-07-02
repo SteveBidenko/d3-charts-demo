@@ -1,66 +1,98 @@
 'use strict';
 (function($) {
-    var w = 780,
+    const
+        w = 780,
         h = 350,
-        vis = null,
+        margin = 30,
+        upperRangeX = 5,
+        upperRangeY = 100,
+        duration = 1000,
+        idHtmlElement = '#entity-chart',
+        yRange = [0 + margin, h - 60],
+        xRange = [0 + margin, w + 50];
+
+    var vis = null,
+        dataY = [17, 33, 79, 79, 79],
+        titleColors = ['red', 'orange', 'green', 'green', 'green'],
+        y = d3.scale.linear().domain([0, upperRangeY]).range(yRange),
+        x = d3.scale.linear().domain([0, upperRangeX]).range(xRange),
         g,
         current,
-        id,
-        duration = 700,
         ease = 'cubic-out',
-        reset = [0, 0, 0];
+        reset = [0, 0, 0, 0, 0];
 
+    $(document).ready(function() {
+        subMetricChange();
+        draw();
+    });
+    // Draw the chart at the start of application
+    function firstDraw() {
+        vis = d3.select(idHtmlElement)
+            .append('svg:svg')
+            .attr('width', w)
+            .attr('height', h);
+
+        g = vis.append('svg:g')
+            .attr('transform', 'translate(0, ' + h + ')');
+        // Lower line
+        g.append('svg:line')
+            .attr('x1', x(0))
+            .attr('y1', -1 * y(0))
+            .attr('x2', x(w))
+            .attr('y2', -1 * y(0));
+        // X labels
+        g.selectAll('.xLabel')
+            .data(x.ticks(upperRangeX))
+            .enter().append('svg:text')
+            .attr('class', 'xLabel')
+            .text(String)
+            .attr('x', function(d) { return x(d - 1); })
+            .attr('y', 0)
+            .attr('text-anchor', 'middle');
+        // Y labels
+        g.selectAll('.yLabel')
+            .data(y.ticks(10))
+            .enter().append('svg:text')
+            .attr('class', 'yLabel')
+            .text(String)
+            .attr('x', 0)
+            .attr('y', function(d) { return -1 * y(d - 1); })
+            .attr('text-anchor', 'right');
+        // Intermediate lines
+        g.append('svg:g')
+            .attr('class', 'grid')
+            .attr('transform', 'translate(' + margin + ', ' + (margin - h) + ')')
+            .call(makeYAxis());
+    }
+    // Draw Intermediate lines
+    function makeYAxis() {
+        return d3.svg.axis()
+            .scale(y)
+            .orient('left')
+            .ticks(10)
+            .tickSize(-w, 0, 0)
+            .tickFormat('');
+    }
+    // Draw a chart
     function draw(id) {
-        var data = [17, 33, 79],
-            titleColors = ['red', 'orange', 'green'],
-            // other_data = generateOtherData(),
-            margin = 30,
-            yRange = [0 + margin, h - 60],
-            y = d3.scale.linear().domain([0, 100]).range(yRange),
-            xRange = [0 + margin, w + 50],
-            x = d3.scale.linear().domain([0, data.length]).range(xRange),
-            line = d3.svg.line()
-                .x(function(d, i) { return x(i); })
-                .y(function(d) { return -1 * y(d); });
+        var line = d3.svg.line()
+                .x(function(d, i) {
+                    var res = x(i);
+                    // console.log(res);
+                    return res;
+                })
+                .y(function(d) {
+                    var res = -1 * y(d);
+                    // console.log(res);
+                    return res;
+                });
 
-        console.log(xRange, yRange);
-
-        vis = d3.select('#entity-chart').select('svg').select('g');
+        vis = d3.select(idHtmlElement).select('svg').select('g');
 
         if (vis.empty()) {
-            vis = d3.select('#entity-chart')
-                .append('svg:svg')
-                .attr('width', w)
-                .attr('height', h);
-
-            g = vis.append('svg:g')
-                .attr('transform', 'translate(0, 350)');
-
-            g.append('svg:line')
-                .attr('x1', x(0))
-                .attr('y1', -1 * y(0))
-                .attr('x2', x(w))
-                .attr('y2', -1 * y(0));
-
-            g.selectAll('.xLabel')
-                .data(x.ticks(5))
-                .enter().append('svg:text')
-                .attr('class', 'xLabel')
-                .text(String)
-                .attr('x', function(d) { return x(d - 1); })
-                .attr('y', 0)
-                .attr('text-anchor', 'middle');
-
-            g.selectAll('.yLabel')
-                .data(y.ticks(10))
-                .enter().append('svg:text')
-                .attr('class', 'yLabel')
-                .text(String)
-                .attr('x', 0)
-                .attr('y', function(d) { return -1 * y(d - 1); })
-                .attr('text-anchor', 'right');
+            firstDraw();
         } else {
-            data = generateOtherData();
+            dataY = generateOtherData();
             console.log('Do another trend');
         }
 
@@ -69,10 +101,10 @@
             .attr('d', line(reset))
             // .style('filter', 'url(#drop-shadow)')
             .transition().duration(duration).ease(ease)
-            .attr('d', line(data));
+            .attr('d', line(dataY));
 
         g.selectAll('dot')
-            .data(data)
+            .data(dataY)
             .enter().append('circle')
             .attr('class', id)
             .attr('r', 6.5)
@@ -84,59 +116,32 @@
                 return titleColors[i];
             })
             .attr('title', function(d, i) {
-                return data[i];
+                return dataY[i];
             });
 
         current = id;
-        console.log('current = ' + current, 'data = ' + data);
+        console.log('current = ' + current, 'data = ' + dataY);
 
         $('svg circle').tipsy({
             gravity: 's',
             html: true,
             fade: true,
-            trigger: 'manual',
+            // trigger: 'manual',
             opacity: 0.85
         });
     }
 
-    function removeData(id) {
-        d3.selectAll('circle.' + id)
-            .transition().duration(duration).ease(ease)
-            .attr('cy', 0)
-            .attr('r', 0)
-            .remove();
-        d3.selectAll('path.' + id).remove();
-    }
-
     function generateOtherData() {
-        return [88, 79, 6];
-    }
-    /*
-    function generateData() {
         var data = [];
-        for (var i = 0, l = 3; i < l; i++) {
-            data.push(Math.round(Math.random() * l));
+
+        for (var i = 0; i < upperRangeX; i++) {
+            data.push(parseInt(Math.random() * upperRangeY));
         }
         return data;
     }
-    */
+
     function subMetricChange() {
-        $('.benchmarks-checkbox').on('change', function(e) {
-            id = $(this).attr('id');
-            if ($(this).is(':checked')) {
-                $(this).parent().addClass('active');
-                draw(id);
-            } else {
-                removeData(id);
-                $(this).parent().removeClass('active');
-            }
-            e.preventDefault();
-        });
         $('button[type="submit"]').on('click', function(e) {
-            $('.benchmarks-checkbox').prop('checked', false);
-            $('.benchmarks-label').removeClass('active');
-            id = $(this).attr('id');
-            $('.sub-metric-checkbox').parent().removeClass('active');
             d3.selectAll('circle')
                 .transition().duration(duration).ease(ease)
                 .attr('cy', 0)
@@ -145,19 +150,9 @@
             d3.selectAll('path').remove();
 
             $(this).parent().addClass('active');
-            draw(id);
+            dataY = generateOtherData();
+            draw();
             e.preventDefault();
         });
     }
-    function pageInit() {
-        // $('#Scoring-Metric-1').addClass('first').attr('checked', 'checked').parent().addClass('active');
-        id = $('.sub-metric-checkbox.first').attr('id');
-        console.log(id);
-        draw(id);
-    }
-
-    $(document).ready(function() {
-        subMetricChange();
-        pageInit();
-    });
 }(jQuery));

@@ -1,71 +1,18 @@
+@import '_variables';
+
+.grid .tick {
+  stroke: $color-9;
+  opacity: 0.7;
+}
+
+.grid path {
+  stroke-width: 0;
+}
+
 .page-title {
   font: 400 40px/1.5 Open Sans, sans-serif;
   text-align: center;
 }
-
-.content {
-  width: 100%;
-  text-align: center;
-}
-
-// --- Variables
-// ---------------------------------------------------
-
-// color
-$color-1: #e2e3e3; // light silver
-$color-2: #969ca9; // slate
-$color-3: #7aaec5; // accent blue light
-$color-4: #5f96bb; // accent blue dark
-$color-5: #efefef; // light white
-$color-6: #e7e9ec; // darker white
-$color-7: #d0d1d1; // grey
-$color-8: #92b6c7; // lighter blue
-$color-9: #9ea0a6; // grey text
-$color-10: #699dc6; // button blue
-$color-11: #e0e1e3; // shade grey
-
-// fonts
-$font-istok: 'Istok Web', sans-serif;
-
-// --- end variables ---------------------------------
-
-// --- Mixins
-// ---------------------------------------------------
-
-// transitions
-@mixin transition($property, $duration) {
-  -webkit-transition: $property $duration ease-in-out;
-  -moz-transition: $property $duration ease-in-out;
-  -o-transition: $property $duration ease-in-out;
-  -ms-transition: $property $duration ease-in-out;
-  transition: $property $duration ease-in-out;
-}
-
-@mixin gradient($from, $to) {
-  background-color: $to;
-  background-image: -moz-linear-gradient($from, $to);
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from($from), to($to));
-  background-image: -webkit-linear-gradient($from, $to);
-  background-image: -o-linear-gradient($from, $to);
-}
-@mixin gradient-horizontal-three-colors($start-color: $color-6, $mid-color: $color-5, $color-stop: 50%, $end-color: $color-6) {
-  background-image: -webkit-gradient(left, linear, 0 0, 0 100%, from($start-color), color-stop($color-stop, $mid-color), to($end-color));
-  background-image: -webkit-linear-gradient(left, $start-color, $mid-color $color-stop, $end-color);
-  background-image: -moz-linear-gradient(left, $start-color, $mid-color $color-stop, $end-color);
-  background-image: linear-gradient(to right, $start-color, $mid-color $color-stop, $end-color);
-  background-repeat: no-repeat;
-}
-
-// clearfix
-@mixin clearfix {
-  &:after {
-    content: "";
-    display: table;
-    clear: both; }
-  *zoom: 1;
-}
-
-// --- end mixins ------------------------------------
 
 // --- Base styles
 // ---------------------------------------------------
@@ -89,7 +36,7 @@ body {
   color: $color-9;
 }
 
-[role="main"] {
+.content, [role="main"] {
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
@@ -230,99 +177,4 @@ svg {
   border-right-color: transparent;
 }
 
-.form-container {
-  text-rendering: geometricPrecision;
-  position: absolute;
-  bottom: 9px;
-  left: 60px;
-  height: 80px;
-  width: 750px;
-  text-shadow: 0 1px 1px rgba(255,255,255,.5);
-
-  fieldset {
-    border: none;
-    @include clearfix;
-  }
-  .checkbox-wrap {
-    float: left;
-    font-size: 23px;
-    padding-right: 18px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-  input[type="checkbox"] {
-    visibility: hidden;
-  }
-  label {
-    padding-left: 51px;
-    position: relative;
-
-    span {
-      @include transition(all, .2s);
-      width: 43px;
-      height: 23px;
-      border-radius: 20px;
-      display: inline-block;
-      position: absolute;
-      left: 0;
-      top: 3px;
-
-      &:first-of-type {
-        background: $color-9;
-        box-shadow: inset 0 0 2px rgba(0,0,0,.3);
-      }
-      &:last-of-type {
-        position: absolute;
-        width: 19px;
-        height: 19px;
-        border-radius: 19px;
-        background: white;
-        left: 2px;
-        top: 5px;
-      }
-    }
-    &.active {
-      span {
-        &:first-of-type {
-          background: $color-4;
-        }
-        &:last-of-type {
-          left: 22px;
-        }
-      }
-    }
-    &:hover {
-      cursor: pointer;
-    }
-  }
-  button {
-    @include transition(background, .2s);
-    background: $color-10;
-    border-radius: 3px;
-    border: 2px solid $color-10;
-    padding: 10px 20px;
-    position: relative;
-    top: -42px;
-    float: right;
-    color: white;
-    font-size: 22px;
-    outline: none;
-
-    &:hover,
-    &:focus,
-    &:active {
-      cursor: pointer;
-      background: darken($color-10, 5%);
-    }
-    &:active {
-      @include transition(background, 0s);
-      margin-top: 2px;
-      margin-right: 2px;
-      border-size: 1px;
-      background: darken($color-10, 10%);
-      font-size: 21px;
-    }
-  }
-}
+@import '_form';
