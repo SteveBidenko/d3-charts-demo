@@ -1,5 +1,4 @@
 // --- Variables
-// ---------------------------------------------------
 
 // color
 $color-1: #e2e3e3; // light silver
@@ -20,7 +19,6 @@ $font-istok: 'Istok Web', sans-serif;
 // --- end variables ---------------------------------
 
 // --- Mixins
-// ---------------------------------------------------
 
 // transitions
 @mixin transition($property, $duration) {
@@ -38,6 +36,7 @@ $font-istok: 'Istok Web', sans-serif;
   background-image: -webkit-linear-gradient($from, $to);
   background-image: -o-linear-gradient($from, $to);
 }
+
 @mixin gradient-horizontal-three-colors($start-color: $color-6, $mid-color: $color-5, $color-stop: 50%, $end-color: $color-6) {
   background-image: -webkit-gradient(left, linear, 0 0, 0 100%, from($start-color), color-stop($color-stop, $mid-color), to($end-color));
   background-image: -webkit-linear-gradient(left, $start-color, $mid-color $color-stop, $end-color);

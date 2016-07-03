@@ -13,6 +13,7 @@
 
     var vis = null,
         dataY = [17, 33, 79, 79, 79],
+        labelX = ['day 0', 'day 30', 'day x', 'day y', 'day z'],
         titleColors = ['red', 'orange', 'green', 'green', 'green'],
         y = d3.scale.linear().domain([0, upperRangeY]).range(yRange),
         x = d3.scale.linear().domain([0, upperRangeX]).range(xRange),
@@ -45,7 +46,7 @@
             .data(x.ticks(upperRangeX))
             .enter().append('svg:text')
             .attr('class', 'xLabel')
-            .text(String)
+            .text(function(d, i) { return labelX[i - 1]; })
             .attr('x', function(d) { return x(d - 1); })
             .attr('y', 0)
             .attr('text-anchor', 'middle');
