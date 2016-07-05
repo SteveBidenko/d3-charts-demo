@@ -1,5 +1,5 @@
 'use strict';
-(function($) {
+(function($, params) {
     const
         w = 780,
         h = 350,
@@ -8,24 +8,31 @@
         upperRangeY = 100,
         duration = 1000,
         idHtmlElement = '#entity-chart',
-        yRange = [0 + margin, h - 60],
-        xRange = [0 + margin, w + 50];
+        yRange = [0 + margin, h - 2 * margin],
+        xRange = [0 + margin, w + 50],
+        ease = 'cubic-out';
 
     var vis = null,
-        dataY = [17, 33, 79, 79, 79],
-        labelX = ['day 0', 'day 30', 'day x', 'day y', 'day z'],
+        lastNumber = params.length - 1, dataY,
+        label1X = ['4/23', '5/23', '', '', '4/23'],
+        label2X = ['day 0', 'day 30', '', '', 'day x'],
         titleColors = ['red', 'orange', 'green', 'green', 'green'],
         y = d3.scale.linear().domain([0, upperRangeY]).range(yRange),
         x = d3.scale.linear().domain([0, upperRangeX]).range(xRange),
-        g,
-        current,
-        ease = 'cubic-out',
-        reset = [0, 0, 0, 0, 0];
+        g, current;
 
     $(document).ready(function() {
+        normalizeDataY();
         subMetricChange();
         draw();
     });
+    function normalizeDataY() {
+        dataY = params.map(function(el) {
+            return el;
+        });
+        dataY.splice(lastNumber + 1, 0, params[lastNumber], params[lastNumber]);
+        console.log(dataY);
+    }
     // Draw the chart at the start of application
     function firstDraw() {
         vis = d3.select(idHtmlElement)
@@ -34,21 +41,29 @@
             .attr('height', h);
 
         g = vis.append('svg:g')
-            .attr('transform', 'translate(0, ' + h + ')');
+            .attr('transform', 'translate(0, ' + (h - margin) + ')');
         // Lower line
         g.append('svg:line')
+            .attr('class', 'intermediate-lines')
             .attr('x1', x(0))
             .attr('y1', -1 * y(0))
             .attr('x2', x(w))
             .attr('y2', -1 * y(0));
+        var xLabels = g.selectAll('.xLabel').data(x.ticks(upperRangeX));
         // X labels
-        g.selectAll('.xLabel')
-            .data(x.ticks(upperRangeX))
-            .enter().append('svg:text')
+        xLabels.enter().append('svg:text')
             .attr('class', 'xLabel')
-            .text(function(d, i) { return labelX[i - 1]; })
-            .attr('x', function(d) { return x(d - 1); })
+            .text(function(d, i) { return label1X[i - 1]; })
+            .attr('x', function(d) { return x(d - 1) + margin; })
             .attr('y', 0)
+            .attr('text-anchor', 'middle');
+        // X labels (line 2)
+        xLabels.enter().append('svg:text')
+            .attr('class', 'xLabel')
+            .style('font-weight', 'bold')
+            .text(function(d, i) { return label2X[i - 1]; })
+            .attr('x', function(d) { return x(d - 1) + margin; })
+            .attr('y', 20)
             .attr('text-anchor', 'middle');
         // Y labels
         g.selectAll('.yLabel')
@@ -78,7 +93,7 @@
     function draw(id) {
         var line = d3.svg.line()
                 .x(function(d, i) {
-                    var res = x(i);
+                    var res = x(i) + margin;
                     // console.log(res);
                     return res;
                 })
@@ -92,33 +107,65 @@
 
         if (vis.empty()) {
             firstDraw();
-        } else {
-            dataY = generateOtherData();
-            console.log('Do another trend');
         }
-
-        g.append('svg:path')
-            .attr('class', id)
-            .attr('d', line(reset))
-            // .style('filter', 'url(#drop-shadow)')
+        // Upper green line
+        var upperLine = -1 * y(d3.max(dataY));
+        g.append('svg:line')
+            .attr('class', 'upper-line')
+            .attr('x1', x(0))
+            .attr('y1', upperLine)
+            .attr('x2', x(w))
+            .attr('y2', upperLine);
+        // Draw two lines
+        g.append('svg:line')
+            .attr('class', 'primary-line')
+            .attr('x1', x(0) + margin)
+            .attr('x2', x(1) + margin)
+            .attr('y1', 0)
+            .attr('y2', 0)
             .transition().duration(duration).ease(ease)
-            .attr('d', line(dataY));
+            .attr('y1', -1 * y(dataY[0]))
+            .attr('y2', -1 * y(dataY[1]));
 
-        g.selectAll('dot')
-            .data(dataY)
-            .enter().append('circle')
-            .attr('class', id)
+        g.append('svg:line')
+            .attr('class', 'line-to-future')
+            .attr('x1', x(1) + margin)
+            .attr('x2', x(4) + margin)
+            .attr('y1', 0)
+            .attr('y2', 0)
+            .transition().duration(duration).ease(ease)
+            .attr('y1', -1 * y(dataY[1]))
+            .attr('y2', -1 * y(dataY[lastNumber]));
+        // Draw three dots
+        g.append('svg:circle')
+            .attr('class', 'circle-0')
+            .style('stroke', titleColors[0])
+            .attr('title', dataY[0])
             .attr('r', 6.5)
-            .attr('cx', function(d, i) { return x(i); })
+            .attr('cx', x(0) + margin)
             .attr('cy', 0)
             .transition().duration(duration).ease(ease)
-            .attr('cy', function(d) { return -1 * y(d); })
-            .attr('title-color', function(d, i) {
-                return titleColors[i];
-            })
-            .attr('title', function(d, i) {
-                return dataY[i];
-            });
+            .attr('cy', -1 * y(dataY[0]));
+
+        g.append('svg:circle')
+            .attr('class', 'circle-1')
+            .style('stroke', titleColors[1])
+            .attr('title', dataY[1])
+            .attr('r', 6.5)
+            .attr('cx', x(1) + margin)
+            .attr('cy', 0)
+            .transition().duration(duration).ease(ease)
+            .attr('cy', -1 * y(dataY[1]));
+
+        g.append('svg:circle')
+            .attr('class', 'circle-1')
+            .style('stroke', titleColors[lastNumber])
+            .attr('title', dataY[lastNumber])
+            .attr('r', 6.5)
+            .attr('cx', x(4) + margin)
+            .attr('cy', 0)
+            .transition().duration(duration).ease(ease)
+            .attr('cy', -1 * y(dataY[lastNumber]));
 
         current = id;
         console.log('current = ' + current, 'data = ' + dataY);
@@ -133,12 +180,12 @@
     }
 
     function generateOtherData() {
-        var data = [];
+        params = [];
 
-        for (var i = 0; i < upperRangeX; i++) {
-            data.push(parseInt(Math.random() * upperRangeY));
+        for (var i = 0; i <= lastNumber; i++) {
+            params.push(parseInt(Math.random() * upperRangeY));
         }
-        return data;
+        normalizeDataY();
     }
 
     function subMetricChange() {
@@ -148,12 +195,14 @@
                 .attr('cy', 0)
                 .attr('r', 0)
                 .remove();
-            d3.selectAll('path').remove();
+            d3.selectAll('line.upper-line').remove();
+            d3.selectAll('line.primary-line').remove();
+            d3.selectAll('line.line-to-future').remove();
 
             $(this).parent().addClass('active');
-            dataY = generateOtherData();
+            generateOtherData();
             draw();
             e.preventDefault();
         });
     }
-}(jQuery));
+}(jQuery, [17, 33, 79]));
