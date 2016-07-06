@@ -25,11 +25,6 @@
         normalizeDataY();
         subMetricChange();
         draw();
-        /*
-        setTimeout(function() {
-            $('svg circle').tipsy('show');
-        }, duration);
-        */
     });
     function normalizeDataY() {
         var lastValue = params[lastNumber];
@@ -95,12 +90,6 @@
     }
     // Draw a chart
     function draw() {
-/*
-        var line = d3.svg.line()
-                .x(function(d, i) { return x(i) + margin; })
-                .y(function(d) { return -1 * y(d); });
-*/
-
         vis = d3.select(idHtmlElement).select('svg').select('g');
 
         if (vis.empty()) {
@@ -136,52 +125,36 @@
             .attr('y2', -1 * y(dataY[lastNumber]));
         // Draw lines, three dots and tooltips
         [0, 1, 4].forEach(function(num) {
+            var pointX = x(num) + margin,
+                pointY = -1 * y(dataY[num]);
             // Draw a vertical line
             g.append('svg:line')
                 .attr('class', 'vertical-line dynamic')
-                .attr('x1', x(num) + margin)
+                .attr('x1', pointX)
                 .attr('y1', -margin)
-                .attr('x2', x(num) + margin)
+                .attr('x2', pointX)
                 .attr('y2', 0)
                 .transition().duration(duration).ease(ease)
-                .attr('y2', -1 * y(dataY[num]));
+                .attr('y2', pointY);
             // Draw a dot
             g.append('svg:circle')
                 .attr('class', 'dynamic')
                 .style('stroke', titleColors[num])
                 .attr('title', dataY[num])
                 .attr('r', 6.5)
-                .attr('cx', x(num) + margin)
+                .attr('cx', pointX)
                 .attr('cy', 0)
                 .transition().duration(duration).ease(ease)
-                .attr('cy', -1 * y(dataY[num]));
+                .attr('cy', pointY);
             // Draw a tooltip
-/*
             g.append('svg:text')
                 .attr('class', 'tipsy dynamic')
-                .attr('text-anchor', 'center')
+                .attr('text-anchor', 'middle')
                 .text(dataY[num])
-                .attr('x', x(num) + margin - 6.5)
+                .attr('x', pointX)
                 .attr('y', 0)
                 .transition().duration(duration).ease(ease)
-                .attr('y', -1 * y(dataY[num]) - 6.5);
-*/
-        });
-
-        $('svg circle').tipsy({
-            gravity: 's',
-            html: false,
-            fade: true,
-            // trigger: 'manual',
-            opacity: 0.85,
-            onShow: function(tipsy, element) {
-                var borderColor = $(element).css('stroke');
-                $(tipsy).css({
-                    // 'color': borderColor,
-                    'border-color': borderColor
-                });
-                console.log(borderColor);
-            }
+                .attr('y', pointY - 2 * 6.5);
         });
     }
 
