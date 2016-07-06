@@ -56,7 +56,7 @@ body {
   border-radius: 4px;
   box-shadow: 0 40px 50px rgba(0,0,0,.3), inset 0 -5px 5px rgba(0,0,0,.3);
   border-top: 2px solid $color-7;
-  width: 850px;
+  width: $totalWidth;
   height: 500px;
   @include clearfix;
   //@include gradient-horizontal-three-colors();
@@ -70,7 +70,7 @@ body {
     top: 10px;
     margin: 30px;
     height: 280px;
-    width: 790px;
+    width: $totalWidth - 60px;
     //@include gradient-horizontal-three-colors($start-color: $color-6, $mid-color: $color-11, $color-stop: 50%, $end-color: $color-6);
   }
   &:after {
@@ -82,81 +82,109 @@ body {
     top: 10px;
     margin: 30px;
     height: 1px;
-    width: 750px;
+    width: $totalWidth - 100px;
     //background: $color-7;
   }
 
-  line.line-to-future {
-    stroke: grey;
+  line.intermediate-lines, line.lower-line {
+    stroke: $color-7;
+  }
+
+  line.lower-line {
+    stroke-width: 4;
+  }
+
+  line.upper-line {
+    stroke: green;
     stroke-width: 2;
-    stroke-dasharray: 5, 5;
+  }
+
+  line.line-to-future {
+    @include dash-line(grey, 4);
   }
 
   line.primary-line {
     stroke: $color-8;
-    stroke-width: 3px;
+    stroke-width: 4;
     fill: none;
   }
 
-  > circle {
+  line.vertical-line {
+    @include dash-line(grey, 1);
+  }
+
+  circle.dynamic {
     fill: white;
     stroke: $color-7;
+    stroke-width: 3px;
+    &:hover, &.active {
+      stroke-width: 6px;
+      cursor: pointer;
+    }
+
+    &:hover {
+      stroke: $color-4;
+    }
   }
 }
+
 svg {
   position: relative;
   z-index: 2;
 }
 
-#entity-chart line.intermediate-lines {
-  stroke: $color-7;
-}
-
-#entity-chart line.upper-line {
-  stroke: green;
-  stroke-width: 2;
-}
-
-#entity-chart circle {
-  stroke: $color-4;
-  fill: #fff;
-  stroke-width: 3px;
-}
-
-#entity-chart circle:hover,
-#entity-chart circle.active {
-  stroke-width: 6px;
-  cursor: pointer;
-}
-
+/*
 #entity-chart path[class*="average"],
 #entity-chart path[class*="top"],
 #entity-chart path[class*="bottom"] {
   stroke: $color-7;
 }
+*/
 
-#entity-chart circle:hover {
-  cursor: pointer;
-  stroke: $color-4;
+/*
+.tipsy {
+  font-family: $body-font;
+  text-align: center;
+  color: black;
+  padding: 5px 8px 4px 8px;
+  border-style: solid;
+  border-width: 2px;
+  background-color: initial;
 }
+*/
 
 .tipsy {
-  font-size: 14px;
+  font-family: $body-font;
+  color: #000;
+  text-align: center;
   position: absolute;
   padding: 5px;
   margin-top: -8px;
   margin-left: 6.5px;
-  z-index: 100000;
+  z-index: 10;
   text-shadow: 0 1px 1px rgba(0,0,0,.3);
+  border-radius: 3px;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 1);;
+  background-color: initial;
+  &:after {
+    bottom: 0;
+    border-top-style: solid;
+    border-bottom: none;
+    border-left-color: transparent;
+    border-right-color: transparent;
+  }
 }
 
+/*
 .tipsy-inner {
-  @include gradient($color-3, $color-4);
-  color: #fff;
+  //@include gradient($color-3, $color-4);
+  color: #000;
   max-width: 200px;
   padding: 5px 8px 4px 8px;
   text-align: center;
-  box-shadow: 0 1px 2px rgba(0,0,0,.3);
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 1);;
   border-radius: 3px;
 }
 
@@ -165,11 +193,11 @@ svg {
   width: 0;
   height: 0;
   line-height: 0;
-  border: 5px dashed $color-4;
+  border: 5px dashed black;
 }
 
 .tipsy-arrow-s {
-  border-top-color: $color-4;
+  border-top-color: black;
 }
 
 .tipsy-s .tipsy-arrow {
@@ -181,5 +209,6 @@ svg {
   border-left-color: transparent;
   border-right-color: transparent;
 }
+*/
 
 @import '_form';
