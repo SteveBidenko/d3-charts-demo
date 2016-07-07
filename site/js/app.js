@@ -1,31 +1,38 @@
 'use strict';
 (function($, params) {
     const
-        w = 780,
-        h = 350,
+        h = 300,
         margin = 30,
+        yRange = [0 + margin, h - 2 * margin],
         upperRangeX = 5,
         upperRangeY = 100,
         duration = 1000,
         idHtmlElement = '#entity-chart',
-        yRange = [0 + margin, h - 2 * margin],
-        xRange = [0 + margin, w + 50],
         ease = 'cubic-out';
 
-    var vis = null,
+    var w, xRange,
+        vis = null,
         lastNumber = params.length - 1, dataY,
         label1X = ['4/23', '5/23', '', '', '4/23'],
         label2X = ['day 0', 'day 30', '', '', 'day x'],
         titleColors = ['red', 'orange', 'green', 'green', 'green'],
-        y = d3.scale.linear().domain([0, upperRangeY]).range(yRange),
-        x = d3.scale.linear().domain([0, upperRangeX]).range(xRange),
+        x, y = d3.scale.linear().domain([0, upperRangeY]).range(yRange),
         g;
 
     $(document).ready(function() {
-        normalizeDataY();
+        initRanges();
         subMetricChange();
         draw();
     });
+
+    function initRanges() {
+        w = $(idHtmlElement).width();
+        xRange = [0 + margin, w - margin];
+        x = d3.scale.linear().domain([0, upperRangeX]).range(xRange);
+        console.log(w);
+        normalizeDataY();
+    }
+    // Normalize array of data
     function normalizeDataY() {
         var lastValue = params[lastNumber];
         dataY = params.map(function(el) {
