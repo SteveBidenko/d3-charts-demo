@@ -14,6 +14,11 @@ const
 require('console-stamp')(console, 'HH:MM:ss.l');
 
 httpApp.use(express.static(__dirname + '/site/'));
+httpApp.post('/promotionalpopup/index/view', function(req, res, next) {
+    console.log(req.body);
+    res.status(200).send('<div class="popup">Test</div>');
+    next();
+});
 
 console.info(colors.green('Starting the server using the port ' + port));
 // Start Express http server
