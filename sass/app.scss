@@ -42,5 +42,9 @@ body {
   justify-content: center;
 }
 
+div.description {
+  margin: 3%;
+}
+
 @import '_chart';
 @import '_form';
