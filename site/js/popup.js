@@ -3,15 +3,14 @@
  */
 'use strict';
 (function($) {
+    /*
     $(document).ready(function() {
         setTimeout(function() {
             // console.log('Launch popup retrieving');
-            $.post({
-                url: '/promotionalpopup/index/view',
-                success: function(data) {
-                    console.log(data);
-                }
-            }, {id: 3});
+            $.post('/promotionalpopup/index/view', {id: 3}).done(function(data) {
+                console.log(data);
+            });
         }, 2000);
     });
+    */
 }(jQuery));
