@@ -33,7 +33,7 @@ body {
   //color: $color-9;
 }
 
-.content, [role="main"] {
+.content, [role="main"], div.popup {
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
@@ -44,6 +44,20 @@ body {
 
 div.description {
   margin: 3%;
+}
+
+div.popup {
+  display: none;
+  position: fixed;
+  top: 275px;
+  left: 300px;
+  //width: 300px;
+  //height: 200px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: cadetblue;
+  background: cadetblue;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
 }
 
 @import '_chart';

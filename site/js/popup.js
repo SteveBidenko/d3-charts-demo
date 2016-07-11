@@ -3,14 +3,15 @@
  */
 'use strict';
 (function($) {
-    /*
     $(document).ready(function() {
         setTimeout(function() {
             // console.log('Launch popup retrieving');
-            $.post('/promotionalpopup/index/view', {id: 3}).done(function(data) {
-                console.log(data);
+            $.get('/popup').done(function(data) {
+                var popup = $('div.popup')[0];
+                $(popup).html(data).show();
+                // $(popup).html(data);
+                console.log(popup);
             });
         }, 2000);
     });
-    */
 }(jQuery));

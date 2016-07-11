@@ -5,3 +5,4 @@ bower_components/
 *.log
 /.sass-cache
 /site/form.html
+/config.json

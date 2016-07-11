@@ -24,10 +24,12 @@
     "colors": "^1.1.2",
     "console-stamp": "^0.2.2",
     "express": "^4.14.0",
+    "express-form": "^0.12.6",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
     "gulp-sass": "^2.3.2",
     "gulp-watch": "^4.3.8",
-    "main-bower-files": "^2.13.1"
+    "main-bower-files": "^2.13.1",
+    "pug": "^2.0.0-beta3"
   }
 }

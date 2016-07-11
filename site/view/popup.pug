@@ -1,0 +1,7 @@
+form.subscribe(style="padding: 5px;")
+    h2(style="text-align: center;") Dear customer
+    <!-- secretKey= #{secretKey} -->
+    input(type="text", placeholder="Email", autocomplete="off")
+    button(type="submit", value="random") Submit
+    != recaptcha
+!= apiScript

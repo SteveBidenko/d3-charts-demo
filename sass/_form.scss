@@ -25,13 +25,11 @@
       cursor: pointer;
       background: darken($color-10, 5%);
     }
+
     &:active {
       @include transition(background, 0s);
-      margin-top: 2px;
-      margin-right: 2px;
-      border-size: 1px;
       background: darken($color-10, 10%);
-      font-size: 21px;
+      box-shadow: none;
     }
   }
 }
