@@ -2,14 +2,11 @@
 
 #entity-chart {
   position: relative;
-  margin: 3%;
-  padding: 30px;
+  padding-left: 30px;
   border-radius: 4px;
   box-shadow: 10px 10px 10px rgba(0,0,0,.3), inset 0 -5px 5px rgba(0,0,0,.3);
   border-top: 2px solid $color-7;
-  width: 100%;
   @include clearfix;
-  //@include gradient-horizontal-three-colors();
 
   line.intermediate-lines, line.lower-line {
     stroke: $color-7;
@@ -52,25 +49,6 @@
   }
 }
 
-/*
-svg {
-  position: relative;
-  z-index: 2;
-}
-*/
-
-/*
-.tipsy {
-  font-family: $body-font;
-  text-align: center;
-  color: black;
-  padding: 5px 8px 4px 8px;
-  border-style: solid;
-  border-width: 2px;
-  background-color: initial;
-}
-*/
-
 .tipsy {
   font-family: $body-font;
   color: #000;
@@ -94,37 +72,3 @@ svg {
     border-right-color: transparent;
   }
 }
-
-/*
-.tipsy-inner {
-  //@include gradient($color-3, $color-4);
-  color: #000;
-  max-width: 200px;
-  padding: 5px 8px 4px 8px;
-  text-align: center;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 1);;
-  border-radius: 3px;
-}
-
-.tipsy-arrow {
-  position: absolute;
-  width: 0;
-  height: 0;
-  line-height: 0;
-  border: 5px dashed black;
-}
-
-.tipsy-arrow-s {
-  border-top-color: black;
-}
-
-.tipsy-s .tipsy-arrow {
-  bottom: 0;
-  left: 50%;
-  margin-left: -5px;
-  border-top-style: solid;
-  border-bottom: none;
-  border-left-color: transparent;
-  border-right-color: transparent;
-}
-*/

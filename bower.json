@@ -22,6 +22,7 @@
   ],
   "dependencies": {
     "d3": "^3.5.17",
-    "jquery": "~2.x.x"
+    "jquery": "~2.x.x",
+    "bootstrap": "^3.3.7"
   }
 }

@@ -24,6 +24,11 @@
         }], w, lastNumber = params[0].length - 1;
 
     $(document).ready(function() {
+        var widths = [
+            $('#chart-index').width(),
+            $('#chart-challenge').width()
+        ];
+        console.log('w = ', widths);
         w = $(idHtmlElement).width();
         params.forEach(function(param, idx) {
             initRanges(idx, param);
@@ -35,6 +40,7 @@
 
     function initRanges(num, params) {
         charts[num].xRange = [0 + margin, w - margin];
+        console.log(charts[num].xRange);
         charts[num].x = d3.scale.linear().domain([0, charts[num].dots]).range(charts[num].xRange);
         charts[num].y = d3.scale.linear().domain(charts[num].bounds).range([0 + margin, h - 2 * margin]);
         charts[num].dataY = normalizeDataY(params);
@@ -60,7 +66,7 @@
             vis = d3.select(idHtmlElement)
                 .append('svg:svg')
                 .attr('id', 'svg' + num)
-                .attr('width', w)
+                .attr('width', w - margin)
                 .attr('height', h);
 
         g = charts[num].g = vis.append('svg:g')
@@ -70,7 +76,7 @@
             .attr('class', 'lower-line')
             .attr('x1', x(0))
             .attr('y1', -1 * y(0))
-            .attr('x2', w)
+            .attr('x2', w - margin)
             .attr('y2', -1 * y(0));
         xLabels = g.selectAll('.xLabel').data(x.ticks(charts[num].dots)).enter();
         // X labels
@@ -106,7 +112,7 @@
                     .scale(y)
                     .orient('left')
                     .ticks(10)
-                    .tickSize(-w, 0, 0)
+                    .tickSize(margin - w , 0, 0)
                     .tickFormat('');
             }());
     }
@@ -217,4 +223,4 @@
             .remove();
         d3.selectAll('#svg' + num + ' line.dynamic, #svg' + num + ' text.dynamic').remove();
     }
-}(jQuery, [[17, 33, 79], [43, 42, 41]]));
+}(jQuery, [[26, 27, 31], [43, 42, 41]]));
