@@ -15,6 +15,7 @@ var
     config = {form: ''},
     form = require('express-form'),
     field = form.field,
+    sass = require('node-sass-middleware'), // We're adding the node-sass module
     colors = require('colors');
 
 //add timestamps in front of log messages
@@ -28,11 +29,22 @@ try {
 }
 // console.log(config);
 
-app.set('views', './site/view/')
+app.set('views', __dirname + '/site/view/')
 app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/site/'));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-www-form-urlencoded
+// adding the sass middleware
+app.use(
+    sass({
+        src: __dirname + '/sass',
+        dest: __dirname + '/site/css',
+        prefix: '/css',
+        response: true,
+        outputStyle: 'extended',
+        debug: false
+    })
+);
 
 app.get('/', function(req, res) {
     res.render('index', {

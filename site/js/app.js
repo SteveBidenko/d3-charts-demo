@@ -2,45 +2,53 @@
 (function($) {
     const
         h = 350,
+        dots = 5,
         margin = 30,
         duration = 1000,
-        label2 = ['start', 'challenge 1', '', '', 'target'],
+        values = [26, 52, 33],
+        bounds = [0, 100],
+        labels = ['start', 'challenge 1', '', '', 'target'],
+        colors = ['red', 'orange', 'green', 'green', 'green'],
         ease = 'cubic-out';
 
     var charts = [{
             htmlElement: '#chart-index',
-            dots: 5,
-            values: [26, 27, 31],
+            dots: dots,
+            values: values,
             label1X: ['4/23', '5/23', '', '', '4/23'],
-            label2X: label2,
-            titleColors: ['red', 'orange', 'green', 'green', 'green'],
-            bounds: [0, 100],
+            label2X: labels,
+            titleColors: colors,
+            bounds: bounds,
             type: 'linear',
             behavior: 'maximum'
         }, {
             htmlElement: '#chart-challenge',
-            dots: 5,
-            values: [43, 42, 41],
-            label1X: ['4/23', '5/23', '', '', '4/23'],
-            label2X: label2,
-            titleColors: ['black', 'blue', 'blue', 'blue', 'blue'],
-            bounds: [40, 50],
-            // type: 'linear',
+            dots: dots,
+            values: values,
+            label1X: labels,
+            label2X: [],
+            titleColors: colors,
+            bounds: bounds,
             type: 'histogram',
             behavior: 'minimum'
         }];
 
     $(document).ready(function() {
+        // var primaryChart = charts[0];
         charts.forEach(function(chart, idx) {
-            chart.w = $(chart.htmlElement).width();
-            chart.xRange = [0 + margin, chart.w - margin];
-            chart.x = d3.scale.linear().domain([0, chart.dots]).range(chart.xRange);
-            chart.yRange = [0 + margin, h - 2 * margin];
-            chart.y = d3.scale.linear().domain(chart.bounds).range(chart.yRange);
-            chart.dataY = normalizeDataY(chart.values);
-            chart.idx = idx;
-            if (typeof chart[chart.type] === 'function') {
-                chart[chart.type]();
+            var $chartDiv = $(chart.htmlElement);
+            if ($chartDiv.length) {
+                chart.w = $chartDiv.width();
+                chart.xRange = [margin, chart.w - margin];
+                chart.x = d3.scale.linear().domain([0, chart.dots]).range(chart.xRange);
+                chart.yRange = [margin, h - 2 * margin];
+                chart.y = d3.scale.linear().domain(chart.bounds).range(chart.yRange);
+                chart.dataY = normalizeDataY(chart.values);
+                if (typeof chart[chart.type] === 'function') {
+                    chart[chart.type]();
+                }
+            } else {
+                console.info('There is not any <div> with the id ' + chart.htmlElement + ' on the page');
             }
         });
         addListenerToButtons();
@@ -63,19 +71,48 @@
         var chart = this,
             x = chart.x,
             y = chart.y,
-            g, vis = d3.select(chart.htmlElement).select('svg#svg' + chart.idx).select('g');
-        console.log(chart);
+            dataY = chart.dataY,
+            g, vis = d3.select(chart.htmlElement).select('svg.charts').select('g');
         if (vis.empty()) {
             prepareDraw();
         }
+        g = chart.g;
+        console.log(dataY);
+        // Draw bars and tooltips
+        [0, 1, 4].forEach(function(dot) {
+            var barWidth = 20,
+                pointX = x(dot) + margin - barWidth / 2,
+                pointY = -1 * y(dataY[dot]);
+            // Draw a bar
+            g.append('rect')
+                .classed('bars dynamic', true)
+                .style('fill', chart.titleColors[dot])
+                .attr('width', barWidth)
+                .attr('x', pointX)
+                .attr('y', -margin)
+                .attr('height', 0)
+                .transition().duration(duration).ease(ease)
+                .attr('y', pointY)
+                .attr('height', -pointY - margin);
+            // Draw a tooltip
+            g.append('svg:text')
+                .attr('class', 'tipsy dynamic')
+                .attr('text-anchor', 'middle')
+                .style('fill', chart.titleColors[dot])
+                .text(dataY[dot])
+                .attr('x', pointX + barWidth / 2)
+                .attr('y', -margin)
+                .transition().duration(duration).ease(ease)
+                .attr('y', pointY - 6.5);
+        });
         // console.log('called histogram with the argument ', chart);
         // Draw base of the chart at start of the application
         function prepareDraw() {
-            var label2X = chart.label2X,
+            var labelX = chart.label1X,
                 xLabels,
                 vis = d3.select(chart.htmlElement)
                     .append('svg:svg')
-                    .attr('id', 'svg' + chart.idx)
+                    .classed('charts', true)
                     .attr('width', chart.w)
                     .attr('height', h);
             // console.log(chart);
@@ -92,7 +129,7 @@
             // X labels
             xLabels.append('svg:text')
                 .attr('class', 'xLabel')
-                .text(function(d, i) { return label2X[i - 1]; })
+                .text(function(d, i) { return labelX[i - 1]; })
                 .attr('x', function(d) { return x(d - 1) + margin; })
                 .attr('y', 0)
                 .attr('text-anchor', 'middle');
@@ -107,7 +144,7 @@
             extremum = chart.behavior == 'maximum' ? d3.max(dataY) : d3.min(dataY),
             extremumNumber = dataY.indexOf(extremum),
             extremumLine = -1 * y(extremum),
-            g, vis = d3.select(chart.htmlElement).select('svg#svg' + chart.idx).select('g');
+            g, vis = d3.select(chart.htmlElement).select('svg.charts').select('g');
 
         // console.log(y(0));
         if (vis.empty()) {
@@ -170,6 +207,7 @@
             g.append('svg:text')
                 .attr('class', 'tipsy dynamic')
                 .attr('text-anchor', 'middle')
+                .style('fill', chart.titleColors[dot])
                 .text(dataY[dot])
                 .attr('x', pointX)
                 .attr('y', 0)
@@ -183,7 +221,7 @@
                 xLabels,
                 vis = d3.select(chart.htmlElement)
                     .append('svg:svg')
-                    .attr('id', 'svg' + chart.idx)
+                    .classed('charts', true)
                     .attr('width', chart.w)
                     .attr('height', h);
 
@@ -247,20 +285,21 @@
 
     function addListenerToButtons() {
         $('div.form-container button').on('click', function(button) {
-            var id = $(button.target).attr('id').split('-'),
-                num = id[1] ? id[1] : 0,
-                chart = charts[num];
+            var selector = 'svg.charts ',
+                newData = generateOtherData(bounds, values.length);
             // removeChart(num);
-            d3.selectAll('#svg' + num + ' circle.dynamic')
+            d3.selectAll(selector + 'circle.dynamic')
                 .transition().duration(duration).ease(ease)
                 .attr('cy', 0)
                 .attr('r', 0)
                 .remove();
-            d3.selectAll('#svg' + num + ' line.dynamic, #svg' + num + ' text.dynamic').remove();
-            chart.dataY = generateOtherData(chart.bounds, chart.values.length);
-            if (typeof chart[chart.type] === 'function') {
-                chart[chart.type]();
-            }
+            d3.selectAll(selector + 'line.dynamic, ' + selector + 'text.dynamic, ' + selector + 'rect.dynamic').remove();
+            charts.forEach(function(chart) {
+                chart.dataY = newData;
+                if (typeof chart[chart.type] === 'function') {
+                    chart[chart.type]();
+                }
+            });
             button.preventDefault();
         });
     }
