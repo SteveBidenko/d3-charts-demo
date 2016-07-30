@@ -31,5 +31,8 @@
     "gulp-watch": "^4.3.8",
     "main-bower-files": "^2.13.1",
     "pug": "^2.0.0-beta3"
+  },
+  "devDependencies": {
+    "node-sass-middleware": "^0.9.8"
   }
 }

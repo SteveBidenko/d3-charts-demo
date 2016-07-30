@@ -8,26 +8,24 @@ html(lang="en")
         link(rel="stylesheet", href="/css/app.css")
     body
         h1.page-title #{pageTitle}
-        div.container
-            div.row
-                div.form-container
-                    button#redraw-0(value="random") Redraw chart 1
-                    button#redraw-1(value="random") Redraw chart 1
-            div.row
-                div#entity-chart
-            div.row
-                div#chart-index.col-md-6 &nbsp;
-                div#chart-challenge.col-md-6 &nbsp;
-            div.popup
-        div.container
-            div.row.description
-                h3 Adopting the new API on your site
-                p As more websites adopt the new API, more people will see "No CAPTCHA reCAPTCHAs".
-                    | Early adopters, like Snapchat, WordPress, Humble Bundle, and several others are already seeing great results with this
-                    | new API. For example, in the last week, more than 60% of WordPress’ traffic and more than 80% of Humble Bundle’s traffic
-                    | on reCAPTCHA encountered the No CAPTCHA experience—users got to these sites faster. To adopt the new reCAPTCHA for your
-                    | website, visit our site to learn more. Humans, we'll continue our work to keep the Internet safe and easy to use.
-                    | Abusive bots and scripts, it’ll only get worse—sorry we’re (still) not sorry.
+        section
+            div.container
+                div#entity-chart.row
+                    div#chart-index.col-md-6
+                    div#chart-challenge.col-md-6
+                div.popup
+        section
+            div.container
+                div.row
+                    div.form-container
+                        //- button#redraw-0(value="random", title="Redraw left chart") Left
+                        //- button#redraw-1(value="random", title="Redraw right chart") Right
+                        button#redraw(value="random", title="Redraw the both charts") Redraw
+                div.row.description
+                    h3 Features
+                    p This demo page shows how we can build d3 graphs in two modes: linear and histogram mode.
+                        | I tried to collect all the modern instruments to make this page.
+                        | There I use Node.js, Express, jQuery, D3.js, Pug/Jade, Sass on fly compiler
         //- script(type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js").
         script(type="text/javascript", src="lib/jquery.min.js").
         //- script(type="text/javascript", src="http://d3js.org/d3.v3.min.js").
