@@ -1,6 +1,12 @@
 @import '_variables';
 
 #entity-chart {
+  >   div.header {
+    font-size: 1.5em;
+    font-family: sans-serif;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
   border-radius: 4px;
   box-shadow: 10px 10px 10px rgba(0,0,0,.3), inset 0 -5px 5px rgba(0,0,0,.3);
   border-top: 2px solid $color-7;
@@ -45,6 +51,34 @@
       stroke: $color-4;
     }
   }
+  div.overall {
+    font-family: sans-serif;
+    text-align: center;
+    h5 {
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+  }
+  div.week-challenge-header, div.monthly-trend-header {
+    font-family: sans-serif;
+    text-align: center;
+    align-items: center;
+    background-color: black;
+    color: white;
+    text-transform: uppercase;
+    line-height: 250%;
+    span.header-arrow-left {
+      float: left;
+      margin-left: 10px;
+    }
+    span.header-arrow-right {
+      float: right;
+      margin-right: 10px;
+    }
+  }
+  .red-text {
+    color: red;
+  }
 }
 
 .tipsy {
@@ -67,5 +101,27 @@
     border-bottom: none;
     border-left-color: transparent;
     border-right-color: transparent;
+  }
+}
+
+#week-challenge-days {
+  font-family: monospace;
+  .equal {
+    @include flexbox();
+    //flex-wrap: wrap;
+    & > div[class*='col-'] {
+      @include flexbox();
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      height: 80px;
+      margin: 0 0.5px;
+      padding: 0;
+      background-color: $color-7;
+      > div {
+        text-align: center;
+        font-weight: bold;
+      }
+    }
   }
 }

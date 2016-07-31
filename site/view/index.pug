@@ -11,8 +11,48 @@ html(lang="en")
         section
             div.container
                 div#entity-chart.row
-                    div#chart-index.col-md-6
-                    div#chart-challenge.col-md-6
+                    div.container-fluid.header Index - overall
+                    div.col-md-6
+                        div#chart-index
+                        div#chart-index-data.row
+                            div.col-md-3.overall
+                                h5 Start
+                                span.red-text 26
+                                p.col-suffix.red-text Premature aging
+                            div.col-md-3.overall
+                                h5 Challenge 1
+                                span.red-text 26
+                                p.col-suffix.red-text Premature aging
+                            div.col-md-3.overall
+                                h5 Change
+                                span 11
+                                p.col-suffix (+39.2%)
+                            div.col-md-3.overall
+                                h5 To go
+                                span 26
+                                p.col-suffix (+60.8%)
+                    div.col-md-6
+                        div.week-challenge-header Challenge 1
+                            span.header-arrow-left &lt;
+                            span.header-arrow-right &gt;
+                        div#week-challenge-days.container-fluid
+                            div.row.equal
+                                div.col-md-2
+                                    div 26
+                                    div Start
+                                div.col-md-2.red-text
+                                    div 27
+                                    div Challenge 1
+                                div.col-md-2
+                                    div Challenge 2
+                                div.col-md-2 4
+                                div.col-md-2 5
+                                div.col-md-2 6
+                                div.col-md-2 7
+                        div.monthly-trend-header Monthly trend
+                            span.header-arrow-left &lt;
+                            span.header-arrow-right &gt;
+                        div#monthly-trend-graph
                 div.popup
         section
             div.container

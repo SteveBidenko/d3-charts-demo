@@ -22,7 +22,7 @@
             type: 'linear',
             behavior: 'maximum'
         }, {
-            htmlElement: '#chart-challenge',
+            htmlElement: '#monthly-trend-graph',
             dots: dots,
             values: values,
             label1X: labels,
@@ -77,7 +77,6 @@
             prepareDraw();
         }
         g = chart.g;
-        console.log(dataY);
         // Draw bars and tooltips
         [0, 1, 4].forEach(function(dot) {
             var barWidth = 20,
@@ -110,12 +109,17 @@
         function prepareDraw() {
             var labelX = chart.label1X,
                 xLabels,
-                vis = d3.select(chart.htmlElement)
-                    .append('svg:svg')
-                    .classed('charts', true)
-                    .attr('width', chart.w)
-                    .attr('height', h);
+                vis, challenge;
             // console.log(chart);
+            vis = d3.select(chart.htmlElement)
+                .append('svg:svg')
+                .classed('charts', true)
+                .attr('width', chart.w)
+                .attr('height', h);
+            challenge = d3.select(chart.htmlElement)
+                .insert('div', 'svg')
+                .classed('challenge', true);
+            console.log(challenge);
             g = chart.g = vis.append('svg:g')
                 .attr('transform', 'translate(0, ' + (h - margin) + ')');
             // Lower line
@@ -146,7 +150,6 @@
             extremumLine = -1 * y(extremum),
             g, vis = d3.select(chart.htmlElement).select('svg.charts').select('g');
 
-        // console.log(y(0));
         if (vis.empty()) {
             prepareDraw(chart);
         }
