@@ -1,0 +1,28 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8").
+        meta(name="viewport", content="width=device-width, initial-scale=1.0").
+        title #{pageTitle}
+        link(rel="stylesheet", href="/css/bootstrap.min.css")
+        link(rel="stylesheet", href="/css/list.css")
+    body
+        h1.page-title #{pageTitle}
+        section
+            div#looker.container
+                div.row
+                    div.col-xs-3
+                        span Test 1
+                    div.col-xs-3
+                        span Test 2
+        section
+            div.container
+                div.row
+                    div.form-container
+                        //- button#howMany(value="random", title="Get number of existing divs") How many
+                        button#addDiv(value="random", title="Add a new div") Add
+                div#result.row
+                    div.col-xs-3.text-right Here are the result:
+                    div.col-xs-9
+        script(type="text/javascript", src="lib/d3.min.js").
+        script(type="text/javascript", src="js/list.js").

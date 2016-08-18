@@ -1,0 +1,23 @@
+@import '_variables';
+@import '_form';
+
+.page-title {
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 1.5;
+  font-family: Helvetica;
+  text-align: center;
+}
+
+#results {
+  border-style: solid;
+  border-width: thin;
+  border-color: green;
+  margin-top: 32px;
+}
+
+#looker {
+  > div.row > div > span {
+    cursor: pointer;
+  }
+}

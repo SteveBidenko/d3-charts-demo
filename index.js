@@ -52,6 +52,12 @@ app.get('/', function(req, res) {
     });
 });
 
+app.get('/list', function(req, res) {
+    res.render('list', {
+        pageTitle: 'D3 single listener'
+    });
+});
+
 app.get('/popup', function(req, res) {
     // console.log(req.body);
     res.render('popup', {
