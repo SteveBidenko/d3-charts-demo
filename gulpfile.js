@@ -31,7 +31,7 @@ gulp.task('watch', function() {
  * Add the jQuery and Angular packages
  **/
 gulp.task('bower-files', ['clean'], function() {
-    var filterJS = gulpFilter('**/*.js', { restore: true }),
+    var filterJS = gulpFilter(['**/*.js', '**/*.js.map'], { restore: true }),
         filterCSS = gulpFilter(['**/*.css', '**/*.css.map'], { restore: true });
 
     gulp.src(
@@ -39,6 +39,9 @@ gulp.task('bower-files', ['clean'], function() {
             overrides: {
                 jquery: {
                     main: 'dist/jquery.min.js'
+                },
+                bootstrap: {
+                    main: 'dist/js/bootstrap.min.js'
                 },
                 d3: {
                     main: 'd3.min.js'

@@ -1,0 +1,21 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8").
+        meta(name="viewport", content="width=device-width, initial-scale=1").
+        title #{pageTitle}
+        link(rel="stylesheet", href="/css/bootstrap.min.css")
+        link(rel="stylesheet", href="/css/debate.css")
+    body
+        h1.page-title #{pageTitle}
+        //- section
+        //-    div#looker.container
+        //-        div.row
+        //-            span Test 1
+        section
+            div.container
+                div.row
+                    div(data-owo-type="widget", data-owo-code="1d14ba97-e5c9-4563-8244-4176c90a3c46", data-owo-mode="debate")
+                    script(type="text/javascript", src="http://localhost/poller-constructor.js", async).
+        script(type="text/javascript", src="lib/vendor.min.js").
+        script(type="text/javascript", src="js/debate.js").

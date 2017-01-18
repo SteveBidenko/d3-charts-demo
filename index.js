@@ -12,7 +12,10 @@ var
     app = express(),
     bodyParser = require('body-parser'),
     fs = require('fs'),
-    config = {form: ''},
+    config = {
+        port: port,
+        form: ''
+    },
     form = require('express-form'),
     field = form.field,
     sass = require('node-sass-middleware'), // We're adding the node-sass module
@@ -58,6 +61,12 @@ app.get('/list', function(req, res) {
     });
 });
 
+app.get('/debate', function(req, res) {
+    res.render('debate', {
+        pageTitle: '1World debate testing'
+    });
+});
+
 app.get('/popup', function(req, res) {
     // console.log(req.body);
     res.render('popup', {
@@ -82,6 +91,7 @@ app.post('/popup', form(
     res.status(status).send({status: status === 200, email: email});
 });
 
-console.info(colors.green('Starting the server using the port ' + port));
+config.port = config.port || port;
+console.info(colors.green('Starting the server using the port ' + config.port));
 // Start Express http server
-http.createServer(app).listen(port);
+http.createServer(app).listen(config.port);
