@@ -3,6 +3,7 @@ var gulp = require('gulp'),
     sass = require('gulp-sass'),
     clean = require('gulp-clean'),
     gulpFilter = require('gulp-filter'),
+    concat = require('gulp-concat'),
     watch = require('gulp-watch');
 /**
  * Do default tasks
@@ -29,7 +30,7 @@ gulp.task('watch', function() {
 /**
  * Add the jQuery and Angular packages
  **/
-gulp.task('bower-files', function() {
+gulp.task('bower-files', ['clean'], function() {
     var filterJS = gulpFilter('**/*.js', { restore: true }),
         filterCSS = gulpFilter(['**/*.css', '**/*.css.map'], { restore: true });
 
@@ -44,7 +45,7 @@ gulp.task('bower-files', function() {
                 }
             }
         })
-    ).pipe(filterJS).pipe(
+    ).pipe(filterJS).pipe(concat('vendor.min.js')).pipe(
         gulp.dest('./site/lib')
     );
 
@@ -64,5 +65,5 @@ gulp.task('bower-files', function() {
  * Clean all the automatic installed files
  */
 gulp.task('clean', function() {
-    gulp.src(['./site/+(lib|css)/*.+(js|css)']).pipe(clean());
+    gulp.src(['./site/+(lib|css)/*.+(js|css|map)']).pipe(clean());
 });
