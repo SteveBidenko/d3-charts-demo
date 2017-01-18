@@ -119,7 +119,7 @@
             challenge = d3.select(chart.htmlElement)
                 .insert('div', 'svg')
                 .classed('challenge', true);
-            console.log(challenge);
+            // console.log(challenge);
             g = chart.g = vis.append('svg:g')
                 .attr('transform', 'translate(0, ' + (h - margin) + ')');
             // Lower line

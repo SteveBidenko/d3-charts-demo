@@ -29,7 +29,7 @@ try {
 }
 // console.log(config);
 
-app.set('views', __dirname + '/site/view/')
+app.set('views', __dirname + '/jade/')
 app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/site/'));
 app.use(bodyParser.json()); // for parsing application/json
